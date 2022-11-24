@@ -1,3 +1,5 @@
+from werkzeug.security import generate_password_hash, check_password_hash
+
 from app import  db
 
 
@@ -15,6 +17,12 @@ class Admin(db.Model):
 
     def __repr__(self) -> str:
         return f"Admin: '{self.username}'"
+    
+    def generate_password_hash(self, password):
+        self.password_hash = generate_password_hash(password)
+
+    def check_password_hash(self, password):
+        return check_password_hash(self.password_hash, password)
 
 
 class Teacher(db.Model):
@@ -26,6 +34,12 @@ class Teacher(db.Model):
 
     def __repr__(self) -> str:
         return f"Teacher(name: '{self.username}')"
+
+    def generate_password_hash(self, password):
+        self.password_hash = generate_password_hash(password)
+
+    def check_password_hash(self, password):
+        return check_password_hash(self.password_hash, password)
 
 
 class Student(db.Model):
@@ -40,6 +54,12 @@ class Student(db.Model):
 
     def __repr__(self) -> str:
         return f"Student(name: '{self.username}')"
+
+    def generate_password_hash(self, password):
+        self.password_hash = generate_password_hash(password)
+
+    def check_password_hash(self, password):
+        return check_password_hash(self.password_hash, password)
 
 
 class Course(db.Model):
