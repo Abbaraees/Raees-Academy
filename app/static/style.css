@@ -1,0 +1,36 @@
+body {
+    margin: 0;
+    padding: 0;
+}
+
+/* Admin index */
+.sections {
+    width: 95%;
+    margin: 0 auto;
+    display: flex;
+
+    gap: 5px;
+}
+
+.section {
+    width: 300px;
+    background-color: aqua;
+    margin: auto;
+}
+
+/* Admin teachers */
+.new-teacher-form-container {
+    width: 500px;
+    margin: 0 auto;
+    background-color: blueviolet;
+    display: none;
+}
+
+/* Admin delete Teacher */
+.confirm-delete {
+    text-align: center;
+    display: none;
+    width: 350px;
+    background-color: aliceblue;
+    margin: 0 auto;
+}

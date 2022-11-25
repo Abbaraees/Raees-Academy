@@ -50,6 +50,23 @@ def add_teacher():
     abort(404)
 
 
+@bp.route('/teachers/delete', methods=['POST'])
+@require_role('admin')
+def delete_teacher():
+    json_data = request.get_json()
+    teacher_id = json_data.get('id')    
+
+    teacher = Teacher.query.filter_by(id=teacher_id).first_or_404()
+
+    try:
+        db.session.delete(teacher)
+        db.session.commit()
+
+        return redirect(url_for('admin.teachers'))
+    except:
+        db.session.rollback()
+        abort(422)
+
 
 @bp.route('/test')
 def test():
