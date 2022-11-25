@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>Teacher Info</h1>
+    <p>{{ teacher.username }}</p>
+    <p>{{ teacher.email }}</p>
+    <div>
+        <button>Update Info</button>
+        <button>Reset Password</button>
+        <button id="delete-teacher-btn">Delete Teacher</button>
+    </div>
+    <div id="confirm-delete" class="confirm-delete">
+        <h3>Are you Sure you want to Delete {{ teacher.username }}?</h3>
+        <div>
+            <button id="accept-delete" data-teacher-id="{{ teacher.id }}">Yes</button>
+            <button id="reject-delete">No</button>
+        </div>
+    </div>
+{% endblock content %}
+{% block script %}
+    {{ super() }}
+    <script src="{{ url_for('static', filename='scripts/view_teacher.js') }}"></script>
+{% endblock script %}

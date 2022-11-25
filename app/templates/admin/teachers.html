@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>Teachers</h1>
+{% if teachers %}
+    <ul>
+        {% for teacher in teachers %}
+        <li>
+            <a href="{{ url_for('admin.view_teacher', id=teacher.id) }}">
+                {{ teacher.username }}
+            </a>
+        </li>
+        {% endfor %}
+    </ul>
+{% endif %}
+<div class="actions">
+    <button id="add-new-teacher-btn">Add New Teacher</button>
+</div>
+
+<div 
+    class="new-teacher-form-container"
+    id="new-teacher-form-container"
+    >
+    <h3>Add New Techer</h3>
+    <form action="" method="post">
+        {{ form.hidden_tag() }}
+        {{ form.username(placeholder='Enter username') }}<br>
+        {{ form.email(placeholder='Enter email') }}<br>
+        {{ form.password(placeholder='Enter password') }}<br>
+        {{ form.submit() }}
+    </form>
+
+</div>
+
+{% endblock content %}
+{% block script %}
+    {{ super() }}
+    <script src="{{ url_for('static', filename='scripts/teachers.js') }}"></script>
+{% endblock script %}
