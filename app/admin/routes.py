@@ -4,7 +4,7 @@ from flask import (
 
 from app.models import Admin, Student, Teacher, db
 from app.admin import bp
-from app.admin.forms import AddNewTeacherForm
+from app.admin.forms import AddNewTeacherForm, ResetTeacherPasswordForm
 from app.auth.utils import require_role
 
 
@@ -24,8 +24,13 @@ def teachers():
 @bp.route('/teachers/<int:id>')
 @require_role('admin')
 def view_teacher(id):
+    reset_password_form = ResetTeacherPasswordForm()
     teacher = Teacher.query.filter_by(id=id).first_or_404()
-    return render_template('admin/view_teacher.html', teacher=teacher)
+    return render_template(
+        'admin/view_teacher.html',
+        teacher=teacher,
+        reset_password_form=reset_password_form
+    )
 
 @bp.route('/teachers', methods=['POST'])
 @require_role('admin')
@@ -83,6 +88,27 @@ def update_teacher():
     except:
         db.session.rollback()
         abort(422)
+
+
+@bp.route('/teachers/reset-password', methods=['POST'])
+@require_role('admin')
+def reset_teacher_password():
+    form = ResetTeacherPasswordForm()
+    if form.validate_on_submit():
+        teacher = Teacher.query.filter_by(id=form.teacher_id.data).first_or_404()
+        teacher.generate_password_hash('teacher123')
+        try:
+            db.session.commit()
+            flash("Password changed successfully")
+            return redirect(url_for('admin.view_teacher', id=teacher.id))
+        except:
+            db.session.rollback()
+            abort(422)
+
+        
+    flash("Error!, failed to reset password")
+    return redirect(url_for('admin.view_teacher', id=teacher.id))
+
 
 
 @bp.route('/test')

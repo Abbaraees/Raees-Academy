@@ -8,3 +8,8 @@ class AddNewTeacherForm(FlaskForm):
     email = EmailField('Email', validators=[DataRequired(), Email()])
     password = PasswordField('Password', validators=[DataRequired()])
     submit = SubmitField('Add')
+
+
+class ResetTeacherPasswordForm(FlaskForm):
+    teacher_id = StringField('teacher_id', validators=[DataRequired()])
+

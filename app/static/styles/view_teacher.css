@@ -1,0 +1,20 @@
+/* Admin delete Teacher */
+.confirm-delete {
+    text-align: center;
+    display: none;
+    width: 350px;
+    background-color: aliceblue;
+    margin: 0 auto;
+}
+
+.confirm-reset {
+    text-align: center;
+    display: none;
+    width: 350px;
+    background-color: aliceblue;
+    margin: 0 auto;
+}
+
+#reset-password-form {
+    display: none;
+}

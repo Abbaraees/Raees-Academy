@@ -1,13 +1,13 @@
 /* Admin Delete Teacher */
 document.addEventListener('click', function(e) {
     if (e.target.id == 'delete-teacher-btn') {
-        showDeleteModal()
+        showModal('confirm-delete')
     } 
     else if (e.target.id == 'accept-delete') {
         deleteTeacher(e.target.dataset["teacherId"])
     }
     else if (e.target.id == 'reject-delete') {
-        hideDeleteModal()
+        hideModal('confirm-delete')
     }
     else if (e.target.id == 'edit-username') {
         document.getElementById('username-input').removeAttribute("disabled")
@@ -15,8 +15,16 @@ document.addEventListener('click', function(e) {
     else if (e.target.id == 'edit-email') {
         document.getElementById('email-input').removeAttribute("disabled")
     } else if (e.target.id == 'update-button') {
-        console.log(e.target.dataset)
         updateTeacher(e.target.dataset["teacherId"])
+    }
+    else if (e.target.id == 'reset-password-btn') {
+        showModal('confirm-reset')
+    }
+    else if (e.target.id == 'reject-reset') {
+        hideModal('confirm-reset')
+    } 
+    else if (e.target.id == 'accept-reset') {
+        resetTeacherPassword()
     }
     
 })
@@ -26,12 +34,22 @@ document.addEventListener('change', function(e) {
 })
 
 
-function showDeleteModal(){
-    document.getElementById('confirm-delete').style.display = 'block'
+function showModal(modalId){
+    if (modalId == 'confirm-delete') {
+        document.getElementById('confirm-delete').style.display = 'block'
+    }
+    else if (modalId == 'confirm-reset') {
+        document.getElementById('confirm-reset').style.display = 'block'
+    }
 }
 
-function hideDeleteModal() {
-    document.getElementById('confirm-delete').style.display = 'none'
+function hideModal(modalId) {
+    if (modalId == 'confirm-delete') {
+        document.getElementById('confirm-delete').style.display = 'none'
+    }
+    else if (modalId == 'confirm-reset') {
+        document.getElementById('confirm-reset').style.display = 'none'
+    }
 }
 
 function deleteTeacher(teacherId) {
@@ -62,4 +80,8 @@ function updateTeacher(teacherId) {
     }).then((resp) => {
         window.location = resp.url
     })
+}
+
+function resetTeacherPassword() {
+    document.getElementById('reset-password-form').submit()
 }

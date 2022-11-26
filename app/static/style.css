@@ -26,11 +26,3 @@ body {
     display: none;
 }
 
-/* Admin delete Teacher */
-.confirm-delete {
-    text-align: center;
-    display: none;
-    width: 350px;
-    background-color: aliceblue;
-    margin: 0 auto;
-}
