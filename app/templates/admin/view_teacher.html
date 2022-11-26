@@ -1,10 +1,16 @@
 {% extends 'base.html' %}
 {% block content %}
 <h1>Teacher Info</h1>
-    <p>{{ teacher.username }}</p>
-    <p>{{ teacher.email }}</p>
+    <p>
+        Username: <input type="text" name="username" id="username-input" value="{{ teacher.username }}" disabled>
+        <button class="edit-button" id="edit-username">Edit</button>
+    </p>
+    <p>
+        Email: <input type="text" name="email" id="email-input" value="{{ teacher.email }}" disabled>
+        <button class="edit-button" id="edit-email">Edit</button>
+    </p>
     <div>
-        <button>Update Info</button>
+        <button id="update-button" data-teacher-id="{{ teacher.id }}" disabled>Update Info</button>
         <button>Reset Password</button>
         <button id="delete-teacher-btn">Delete Teacher</button>
     </div>

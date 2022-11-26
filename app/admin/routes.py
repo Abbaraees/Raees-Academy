@@ -68,6 +68,23 @@ def delete_teacher():
         abort(422)
 
 
+@bp.route('/teachers/update', methods=['POST'])
+@require_role('admin')
+def update_teacher():
+    json_data = request.get_json()
+    teacher = Teacher.query.filter_by(id=json_data.get('id')).first_or_404()
+    print(json_data)
+    teacher.username = json_data.get('username')
+    teacher.email = json_data.get('email')
+
+    try:
+        db.session.commit()
+        return redirect(url_for('admin.view_teacher', id=teacher.id))
+    except:
+        db.session.rollback()
+        abort(422)
+
+
 @bp.route('/test')
 def test():
     return f"<h1>Admin Test Page {g.get('user')}</h1>"
