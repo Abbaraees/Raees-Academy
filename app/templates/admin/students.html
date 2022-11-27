@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>Students</h1>
+{% if students %}
+    <ul>
+        {% for student in students %}
+        <li>
+            <a href="{{ url_for('admin.view_student', id=student.id) }}">
+                {{ student.username }}
+            </a>
+        </li>
+        {% endfor %}
+    </ul>
+{% endif %}
+<div class="actions">
+    <button id="add-new-teacher-btn">Add New Student</button>
+</div>
+
+{% endblock content %}
+{% block script %}
+    {{ super() }}
+    <script src="{{ url_for('static', filename='scripts/teachers.js') }}"></script>
+{% endblock script %}

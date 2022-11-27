@@ -110,6 +110,25 @@ def reset_teacher_password():
     return redirect(url_for('admin.view_teacher', id=teacher.id))
 
 
+@bp.route('/students')
+@require_role('admin')
+def students():
+    students = Student.query.all()
+    
+    return render_template('admin/students.html', students=students)
+
+
+@bp.route('/students/<int:id>')
+@require_role('admin')
+def view_student(id):
+    student = Student.query.filter_by(id=id).first_or_404()
+
+    return render_template(
+        'admin/view_student.html',
+        student=student,
+        len=len
+    )
+
 
 @bp.route('/test')
 def test():

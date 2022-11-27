@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% block styles %}
+    {{ super() }}
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/view_teacher.css') }}">
+{% endblock styles %}
+{% block content %}
+<h1>Student Info</h1>
+    <p>
+        First Name: <input type="text" name="firstName" id="firstName-input" value="{{ student.first_name }}" disabled>
+        <button class="edit-button" id="edit-username">Edit</button>
+    </p>
+    <p>
+        Last Name: <input type="text" name="last_name" id="last_name-input" value="{{ student.last_name }}" disabled>
+        <button class="edit-button" id="edit-email">Edit</button>
+    </p>
+    <p>
+        Username: <input type="text" name="username" id="username-input" value="{{ student.username }}" disabled>
+        <button class="edit-button" id="edit-username">Edit</button>
+    </p>
+    <p>
+        Email: <input type="text" name="email" id="email-input" value="{{ student.email }}" disabled>
+        <button class="edit-button" id="edit-email">Edit</button>
+    </p>
+    <p>
+        Course Enrolled: {{ len(student.courses) }}
+    </p>
+    
+    <div>
+        <button id="update-button" disabled>Update Info</button>
+        <button id="reset-password-btn">Reset Password</button>
+        <button id="delete-teacher-btn">Delete Student</button>
+    </div>
+    <div id="confirm-delete" class="confirm-delete">
+        <h3>Are you Sure you want to Delete {{ student.username }}?</h3>
+        <div>
+            <button id="accept-delete">Yes</button>
+            <button id="reject-delete">No</button>
+        </div>
+    </div>
+    <div id="confirm-reset" class="confirm-reset">
+        <h3>Are you Sure you want to reset {{ student.username }} password?</h3>
+        <div>
+            <button id="accept-reset">Yes</button>
+            <button id="reject-reset">No</button>
+        </div>
+    </div>
+   
+{% endblock content %}
+{% block script %}
+    {{ super() }}
+    <script src="{{ url_for('static', filename='scripts/view_teacher.js') }}"></script>
+{% endblock script %}
