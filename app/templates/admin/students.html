@@ -15,7 +15,22 @@
 <div class="actions">
     <button id="add-new-teacher-btn">Add New Student</button>
 </div>
+<div 
+    class="new-teacher-form-container"
+    id="new-teacher-form-container"
+    >
+    <h3>Add New Student</h3>
+    <form action="" method="post">
+        {{ add_student_form.hidden_tag() }}
+        {{ add_student_form.first_name(placeholder='Enter First Name') }}<br>
+        {{ add_student_form.last_name(placeholder='Enter Last Name') }}<br>
+        {{ add_student_form.username(placeholder='Enter username') }}<br>
+        {{ add_student_form.email(placeholder='Enter email') }}<br>
+        {{ add_student_form.password(placeholder='Enter password') }}<br>
+        {{ add_student_form.submit() }}
+    </form>
 
+</div>
 {% endblock content %}
 {% block script %}
     {{ super() }}

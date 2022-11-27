@@ -7,11 +7,11 @@
 <h1>Teacher Info</h1>
     <p>
         Username: <input type="text" name="username" id="username-input" value="{{ teacher.username }}" disabled>
-        <button class="edit-button" id="edit-username">Edit</button>
+        <button class="edit-button" data-input-id="username-input">Edit</button>
     </p>
     <p>
         Email: <input type="text" name="email" id="email-input" value="{{ teacher.email }}" disabled>
-        <button class="edit-button" id="edit-email">Edit</button>
+        <button class="edit-button" data-input-id="email-input">Edit</button>
     </p>
     <div>
         <button id="update-button" data-teacher-id="{{ teacher.id }}" disabled>Update Info</button>

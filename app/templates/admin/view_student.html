@@ -5,46 +5,57 @@
 {% endblock styles %}
 {% block content %}
 <h1>Student Info</h1>
+<form action="{{ url_for('admin.update_student')  }}" method="post" id="update-form">
     <p>
-        First Name: <input type="text" name="firstName" id="firstName-input" value="{{ student.first_name }}" disabled>
-        <button class="edit-button" id="edit-username">Edit</button>
+        {{ update_form.hidden_tag() }}
+                    
+        First Name: {{ update_form.first_name(id="firstname-input", value=student.first_name, disabled=1) }}
+        <button type="button" class="edit-button" data-input-id="firstname-input">Edit</button>
     </p>
     <p>
-        Last Name: <input type="text" name="last_name" id="last_name-input" value="{{ student.last_name }}" disabled>
-        <button class="edit-button" id="edit-email">Edit</button>
+        Last Name: {{ update_form.last_name(id="lastname-input", value=student.last_name, disabled=1) }}
+        <button type="button" class="edit-button" data-input-id="lastname-input">Edit</button>
     </p>
     <p>
-        Username: <input type="text" name="username" id="username-input" value="{{ student.username }}" disabled>
-        <button class="edit-button" id="edit-username">Edit</button>
+        Username: {{ update_form.username(id="username-input", value=student.username, disabled=1) }}
+        <button type="button" class="edit-button" data-input-id="username-input">Edit</button>
     </p>
     <p>
-        Email: <input type="text" name="email" id="email-input" value="{{ student.email }}" disabled>
-        <button class="edit-button" id="edit-email">Edit</button>
+        Email: {{ update_form.email(id="email-input", value=student.email, disabled=1) }}
+        <button type="button" class="edit-button" data-input-id="email-input">Edit</button>
+    </p>
+    <p>
+        {{ update_form.id(value=student.id, hidden=1)}}
     </p>
     <p>
         Course Enrolled: {{ len(student.courses) }}
     </p>
-    
+</form>
+<div>
+    <button id="update-button" data-target="student" disabled>Update Info</button>
+    <button id="reset-password-btn">Reset Password</button>
+    <button id="delete-teacher-btn">Delete Student</button>
+</div>
+<div id="confirm-delete" class="confirm-delete">
+    <h3>Are you Sure you want to Delete {{ student.username }}?</h3>
     <div>
-        <button id="update-button" disabled>Update Info</button>
-        <button id="reset-password-btn">Reset Password</button>
-        <button id="delete-teacher-btn">Delete Student</button>
+        <button id="accept-delete" data-target="student">Yes</button>
+        <button id="reject-delete">No</button>
     </div>
-    <div id="confirm-delete" class="confirm-delete">
-        <h3>Are you Sure you want to Delete {{ student.username }}?</h3>
-        <div>
-            <button id="accept-delete">Yes</button>
-            <button id="reject-delete">No</button>
-        </div>
+</div>
+<div id="confirm-reset" class="confirm-reset">
+    <h3>Are you Sure you want to reset {{ student.username }} password?</h3>
+    <div>
+        <button id="accept-reset">Yes</button>
+        <button id="reject-reset">No</button>
     </div>
-    <div id="confirm-reset" class="confirm-reset">
-        <h3>Are you Sure you want to reset {{ student.username }} password?</h3>
-        <div>
-            <button id="accept-reset">Yes</button>
-            <button id="reject-reset">No</button>
-        </div>
-    </div>
-   
+</div>
+
+<form action="{{ url_for('admin.delete_student') }}" method="post" id="delete-user-form">
+    {{ delete_user_form.hidden_tag() }}
+    {{ delete_user_form.id(value=student.id, hidden=1)}}
+</form>
+
 {% endblock content %}
 {% block script %}
     {{ super() }}

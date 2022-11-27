@@ -1,21 +1,24 @@
-/* Admin Delete Teacher */
 document.addEventListener('click', function(e) {
     if (e.target.id == 'delete-teacher-btn') {
         showModal('confirm-delete')
     } 
     else if (e.target.id == 'accept-delete') {
-        deleteTeacher(e.target.dataset["teacherId"])
+        if (e.target.dataset["target"] == "student") {
+            deleteStudent()
+        }
+        else deleteTeacher(e.target.dataset["teacherId"])
     }
     else if (e.target.id == 'reject-delete') {
         hideModal('confirm-delete')
     }
-    else if (e.target.id == 'edit-username') {
-        document.getElementById('username-input').removeAttribute("disabled")
+    else if (e.target.className == 'edit-button') {
+        editInput(e.target.dataset['inputId'])
     }
-    else if (e.target.id == 'edit-email') {
-        document.getElementById('email-input').removeAttribute("disabled")
-    } else if (e.target.id == 'update-button') {
-        updateTeacher(e.target.dataset["teacherId"])
+    else if (e.target.id == 'update-button') {
+        if (e.target.dataset['target'] == 'student') {
+            updateStudent()
+        }
+        else updateTeacher(e.target.dataset["teacherId"])
     }
     else if (e.target.id == 'reset-password-btn') {
         showModal('confirm-reset')
@@ -28,6 +31,10 @@ document.addEventListener('click', function(e) {
     }
     
 })
+
+function editInput(inputId) {
+    document.getElementById(inputId).removeAttribute("disabled")
+}
 
 document.addEventListener('change', function(e) {
     document.getElementById("update-button").removeAttribute("disabled")
@@ -84,4 +91,16 @@ function updateTeacher(teacherId) {
 
 function resetTeacherPassword() {
     document.getElementById('reset-password-form').submit()
+}
+
+function updateStudent() {
+    editInput("firstname-input")
+    editInput("lastname-input")
+    editInput("email-input")
+    editInput("username-input")
+    const updateForm = document.getElementById("update-form").submit()
+}
+
+function deleteStudent() {
+    document.getElementById("delete-user-form").submit()
 }

@@ -4,7 +4,10 @@ from flask import (
 
 from app.models import Admin, Student, Teacher, db
 from app.admin import bp
-from app.admin.forms import AddNewTeacherForm, ResetTeacherPasswordForm
+from app.admin.forms import (
+    AddNewTeacherForm, ResetTeacherPasswordForm, AddStudentForm, UpdateStudentForm,
+    DeleteUserForm
+)
 from app.auth.utils import require_role
 
 
@@ -115,7 +118,11 @@ def reset_teacher_password():
 def students():
     students = Student.query.all()
     
-    return render_template('admin/students.html', students=students)
+    return render_template(
+        'admin/students.html',
+        students=students,
+        add_student_form=AddStudentForm()
+    )
 
 
 @bp.route('/students/<int:id>')
@@ -126,10 +133,78 @@ def view_student(id):
     return render_template(
         'admin/view_student.html',
         student=student,
-        len=len
+        len=len,
+        update_form=UpdateStudentForm(),
+        delete_user_form=DeleteUserForm()
     )
 
 
-@bp.route('/test')
-def test():
-    return f"<h1>Admin Test Page {g.get('user')}</h1>"
+@bp.route('/students', methods=['POST'])
+@require_role('admin')
+def add_student():
+    form = AddStudentForm(request.form)
+    if form.validate_on_submit():
+        student = Student(
+            first_name=form.first_name.data,
+            last_name=form.last_name.data,
+            username=form.username.data,
+            email=form.email.data
+        )
+        student.generate_password_hash(form.password.data)
+
+        try:
+            db.session.add(student)
+            db.session.commit()
+            flash('Student added successfully')
+            return redirect(url_for('admin.students'))
+        except:
+            db.session.rollback()
+            flash("Failed to add Student")
+
+    return render_template(
+        'admin/students.html', 
+        students=Student.query.all(),
+        add_student_form=form
+    )
+
+
+@bp.route('/students/update', methods=['POST'])
+@require_role('admin')
+def update_student():
+    form = UpdateStudentForm(request.form)
+    if form.validate_on_submit():
+        student = Student.query.filter_by(id=form.id.data).first_or_404()
+        student.first_name = form.first_name.data
+        student.last_name = form.last_name.data
+        student.email = form.email.data
+        student.username = form.username.data
+
+        try:
+            db.session.commit()
+            flash('Student info updated successfully!')
+            return redirect(url_for('admin.view_student', id=student.id))
+        except:
+            db.session.rollback()
+            abort(422)
+
+    flash("Failed to update student")
+    return redirect(url_for('admin.view_student', id=form.id.data))
+
+
+@bp.route('/students/delete', methods=['POST'])
+@require_role('admin')
+def delete_student():
+    form = DeleteUserForm(request.form)
+    if form.validate_on_submit():
+        student = Student.query.filter_by(id=form.id.data).first_or_404()
+        try:
+            db.session.delete(student)
+            db.session.commit()
+            flash("Student Deleted Successfully")
+            return redirect(url_for("admin.students"))
+        except:
+            db.session.rollback()
+            abort(422)
+    
+    flash("Failed to Delete Student")
+    return redirect(url_for('admin.view_student', id=form.id.data))
