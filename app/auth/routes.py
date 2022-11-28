@@ -56,7 +56,7 @@ def teachers_login():
             session['role'] = 'teacher'
             session['user_id'] = user.id
 
-            return redirect(url_for('index'))
+            return redirect(url_for('teachers.index'))
 
     return render_template('auth/login.html', form=form)
 
