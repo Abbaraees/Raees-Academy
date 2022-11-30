@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>Welcome {{ g.user.username.capitalize() }}</h1>
+<div>
+    <a href="{{ url_for('teachers.courses') }}">Courses</a>
+    <a href="#">Messages</a>
+    <a href="#">Settings</a>
+</div>
+{% endblock content %}

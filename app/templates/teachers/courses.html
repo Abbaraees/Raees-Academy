@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block styles %}
+    {{ super() }}
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/courses.css') }}">
+{% endblock styles %}
+{% block content %}
+<h1>Courses</h1>
+<h3>Total Courses: {{ courses.count() }}</h3>
+<button id="show-form-btn">Add New Course</button>
+<ul id="courses">
+    {% for course in courses.all() %}
+    <li>{{ course.name }}</li>
+    {% endfor %}
+</ul>
+<form action="{{ url_for('teachers.add_course') }}"  id="add-course-form">
+    <button id="close-btn" type="button">X</button>
+    {{ form.hidden_tag() }}
+    Course Name :{{ form.name() }}<br>
+    Course Description: {{ form.description() }}<br>
+    <button type="button" id="add-course-btn">Add Course</button>
+</form>
+{% endblock content %}
+{% block script %}
+{{ super() }}
+<script src="{{ url_for('static', filename='scripts/courses.js') }}"></script>
+{% endblock script %}

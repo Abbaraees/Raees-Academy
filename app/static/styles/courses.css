@@ -1,0 +1,24 @@
+#add-course-form {
+    display: none;
+    position: fixed;
+    top: 25%;
+    left: 25%;
+    width: 50%;
+    background-color: blueviolet;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+#close-btn {
+    position: absolute;
+    color: white;
+    width: 30px;
+    height: 30px;
+    right: 3px;
+    top: 3px;
+    border: none;
+    background-color: grey;
+    border-radius: 50%;
+    cursor: pointer;
+    
+}
