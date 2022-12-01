@@ -16,7 +16,7 @@ def index():
     return render_template('teachers/index.html')
 
 
-@bp.route('/courses')
+@bp.route('/courses/')
 @require_role('teacher')
 def courses():
     courses = g.user.courses
@@ -58,3 +58,10 @@ def add_course():
         'message': 'Failed to add course'
     }), 400
 
+
+@bp.route('/courses/<int:id>')
+@require_role('teacher')
+def view_course(id):
+    course = Course.query.filter_by(id=id).first_or_404()
+
+    return render_template('teachers/view_course.html', course=course)

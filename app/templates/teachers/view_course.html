@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>{{ course.name }}</h1>
+<p>{{ course.description }}</p>
+<p>Students Enrolled: {{ course.students.count() }}</p>
+<div class="lessons">
+    <p>Lessons: {{ course.lessons.count() }}</p>
+    <a href="#">Add Lesson</a>
+</div>
+{% endblock content %}

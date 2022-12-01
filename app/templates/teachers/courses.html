@@ -9,7 +9,11 @@
 <button id="show-form-btn">Add New Course</button>
 <ul id="courses">
     {% for course in courses.all() %}
-    <li>{{ course.name }}</li>
+    <li>
+        <a href="{{ url_for('teachers.view_course', id=course.id) }}">
+            {{ course.name }}
+        </a>
+    </li>
     {% endfor %}
 </ul>
 <form action="{{ url_for('teachers.add_course') }}"  id="add-course-form">
