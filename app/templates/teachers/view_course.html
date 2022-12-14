@@ -5,6 +5,11 @@
 <p>Students Enrolled: {{ course.students.count() }}</p>
 <div class="lessons">
     <p>Lessons: {{ course.lessons.count() }}</p>
-    <a href="#">Add Lesson</a>
+    <ul>
+        {% for lesson in course.lessons.all() %}
+        <li>Lesson {{ lesson.id }}: {{ lesson.name }}</li>
+        {% endfor %}
+    </ul>
+    <a href="{{ url_for('teachers.add_lesson', id=course.id) }}">Add Lesson</a>
 </div>
 {% endblock content %}

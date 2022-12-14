@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>Add Lesson</h1>
+<div>
+    <form action="" method="post">
+        {{ form.hidden_tag() }}
+        <div>
+            {{ form.name.label }}: {{ form.name() }}
+            {{ form.description.label}}: {{ form.description() }}
+        </div>
+        <div>
+            {{ form.content.label }}: {{ form.content(rows=15, cols=50) }}
+        </div>
+        <div>
+            <button type="button">Upload markdown</button>
+            <button type="button">Add Video</button>
+        </div>
+        <div>
+            <button type="button">Preview</button>
+            <button>Add Lesson</button>
+        </div>
+    </form>
+</div>
+
+{% endblock content %}
+

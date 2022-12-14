@@ -77,8 +77,8 @@ class Lesson(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String, nullable=False)
     description = db.Column(db.String, nullable=False)
-    url = db.Column(db.String, nullable=False, unique=True)
     course_id = db.Column(db.Integer, db.ForeignKey('course.id'))
+    content = db.Column(db.String, nullable=False)
 
     def __repr__(self) -> str:
         return f"Lesson(name: '{self.name}')"

@@ -1,8 +1,8 @@
-"""add all tables
+"""empty message
 
-Revision ID: 15b87f4409e7
+Revision ID: 3c4c8e8f2190
 Revises: 
-Create Date: 2022-11-22 09:17:50.541388
+Create Date: 2022-12-12 07:52:20.363177
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '15b87f4409e7'
+revision = '3c4c8e8f2190'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -59,11 +59,10 @@ def upgrade():
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('name', sa.String(), nullable=False),
     sa.Column('description', sa.String(), nullable=False),
-    sa.Column('url', sa.String(), nullable=False),
     sa.Column('course_id', sa.Integer(), nullable=True),
+    sa.Column('content', sa.String(), nullable=False),
     sa.ForeignKeyConstraint(['course_id'], ['course.id'], ),
-    sa.PrimaryKeyConstraint('id'),
-    sa.UniqueConstraint('url')
+    sa.PrimaryKeyConstraint('id')
     )
     op.create_table('student_courses',
     sa.Column('course_id', sa.Integer(), nullable=True),

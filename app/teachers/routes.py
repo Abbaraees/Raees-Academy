@@ -1,12 +1,12 @@
 from flask import (
-    render_template, redirect, url_for, g, request, flash,jsonify
+    render_template, redirect, url_for, g, request, flash,jsonify, abort
 )
 from werkzeug.datastructures import ImmutableMultiDict
 
 from app.auth.utils import require_role
 from app.teachers import bp
-from app.teachers.forms import AddCourseForm
-from app.models import Course, db
+from app.teachers.forms import AddCourseForm, AddLessonForm
+from app.models import Course, db, Lesson
 
 
 
@@ -65,3 +65,29 @@ def view_course(id):
     course = Course.query.filter_by(id=id).first_or_404()
 
     return render_template('teachers/view_course.html', course=course)
+
+
+@bp.route('/courses/<int:id>/add_lesson', methods=['GET', 'POST'])
+@require_role('teacher')
+def add_lesson(id):
+    form = AddLessonForm()
+    if form.validate_on_submit():
+        course = Course.query.filter_by(id=id).first_or_404()
+        lesson = Lesson(
+            name=form.name.data,
+            description=form.description.data,
+            content=form.content.data
+        )
+        try:
+            course.lessons.append(lesson)
+            db.session.commit()
+            flash("Lesson added successfully!")
+            return redirect(url_for('teachers.view_course', id=id))
+            
+        except:
+            db.session.rollback()
+            flash("Failed to add Lesson.\nPlease try again")
+            return redirect(url_for('teachers.view_course', id=id))
+
+
+    return render_template('teachers/add_lesson.html', form=form)
