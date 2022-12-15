@@ -14,3 +14,13 @@
     right: 5px;
     border-radius: 50%;
 }
+
+#delete-course-form {
+    width: 450px;
+    position:fixed;
+    top: 40%;
+    left: 30%;
+    background-color: aliceblue;
+    text-align: center;
+    display: none;
+}

@@ -5,7 +5,7 @@ from werkzeug.datastructures import ImmutableMultiDict
 
 from app.auth.utils import require_role
 from app.teachers import bp
-from app.teachers.forms import AddCourseForm, AddLessonForm
+from app.teachers.forms import AddCourseForm, AddLessonForm, EmptyForm
 from app.models import Course, db, Lesson
 
 
@@ -45,7 +45,8 @@ def add_course():
                 'message': 'course added successfully',
                 'course': {
                     'name': course.name,
-                    'description': course.description
+                    'description': course.description,
+                    'id': course.id
                 }
             }
             
@@ -64,12 +65,14 @@ def add_course():
 def view_course(id):
     course = Course.query.filter_by(id=id).first_or_404()
     update_form = AddCourseForm()
+    delete_form = EmptyForm()
     update_form.name.data = course.name
     update_form.description.data = course.description
 
     return render_template(
         'teachers/view_course.html',
-        course=course, update_form=update_form
+        course=course, update_form=update_form,
+        delete_form=delete_form
     )
 
 
@@ -87,6 +90,22 @@ def update_course(id):
 
     flash("Failed to update course")
     return redirect(url_for('teachers.view_course', id=id))
+
+
+@bp.route('/courses/<int:id>/delete', methods=['POST'])
+@require_role('teacher')
+def delete_course(id):
+    course = Course.query.filter_by(id=id).first_or_404()
+    form = EmptyForm(request.form)
+
+    if form.validate_on_submit():
+        db.session.delete(course)
+        db.session.commit()
+        flash("Course Deleted Successfully!")
+        return redirect(url_for('teachers.courses'))
+    
+    flash("Failed to delete course!")
+    return redirect(url_for('teachers.view_course', id=course.id))
 
 
 @bp.route('/courses/<int:id>/add_lesson', methods=['GET', 'POST'])

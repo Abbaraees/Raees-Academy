@@ -9,7 +9,7 @@
 <div>
     <button>Publish Course</button>
     <button id="update-course-btn">Update Course</button>
-    <button>Delete Course</button>
+    <button id="delete-course-btn">Delete Course</button>
 </div>
 <p>Students Enrolled: {{ course.students.count() }}</p>
 <div class="lessons">
@@ -35,6 +35,17 @@
     <p>Course Name: {{ update_form.name() }}</p>
     <p>Course Descriptiom: {{ update_form.description() }}</p>
     <button>Update</button>
+</form>
+<form 
+    action="{{ url_for('teachers.delete_course', id=course.id) }}"
+    method="post"
+    id="delete-course-form"
+    >
+    {{ delete_form.hidden_tag() }}
+    <p>Are you sure you want to Delete {{ course.name }}</p>
+    <button>Yes</button>
+    <button type="button" id="cancel-delete-btn">No</button>
+
 </form>
 {% endblock content %}
 {% block script %}

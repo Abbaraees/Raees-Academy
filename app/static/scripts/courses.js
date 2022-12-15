@@ -25,7 +25,7 @@ function addCourse() {
     }).then((resp) => {
         resp.json().then((data) => {
             document.getElementById("courses").innerHTML += 
-                `<li>${data.course['name']}</li>`
+                `<li><a href="/teachers/courses/${data.course['id']}">${data.course['name']}</a></li>`
             document.getElementById("add-course-form").style.display = 'none'
             document.getElementById("name").value = ""
             document.getElementById("description").value = ""
