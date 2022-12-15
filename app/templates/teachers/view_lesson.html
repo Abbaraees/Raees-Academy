@@ -1,12 +1,31 @@
 {% extends 'base.html' %}
+{% block styles %}
+ {{ super() }}
+ <link rel="stylesheet" href="{{ url_for('static', filename='styles/view_course.css') }}">
+{% endblock styles %}
 {% block content %}
 <h1>{{ lesson.name }}</h1>
 <p>{{ lesson.description }}</p>
 <div>
-    <button>Update Lesson</button>
-    <button>Delete Lesson</button>
+    <a href="{{ url_for('teachers.update_lesson', course_id=lesson.course.id, lesson_id=lesson.id) }}">Update Lesson</a>
+    <button id="delete-course-btn">Delete Lesson</button>
 </div>
 <p>
     {{ lesson.content | safe }}
 </p>
+<form 
+    action="{{ url_for('teachers.delete_lesson', course_id=lesson.course.id, lesson_id=lesson.id) }}"
+    method="post"
+    id="delete-course-form"
+    >
+    {{ delete_form.hidden_tag() }}
+    <p>Are you sure you want to Delete {{ lesson.name }}</p>
+    <button>Yes</button>
+    <button type="button" id="cancel-delete-btn">No</button>
+
+</form>
 {% endblock content %}
+{% block script %}
+ {{ super() }}
+ <script src="{{ url_for('static', filename='scripts/view_course.js') }}"></script>
+{% endblock script %}

@@ -140,4 +140,54 @@ def view_lesson(course_id, lesson_id):
     course = Course.query.filter_by(id=course_id).first_or_404()
     lesson = course.lessons.filter_by(id=lesson_id).first_or_404()
 
-    return render_template('teachers/view_lesson.html', lesson=lesson)
+    return render_template('teachers/view_lesson.html', lesson=lesson, delete_form=EmptyForm())
+
+
+@bp.route('courses/<int:course_id>lessons/<int:lesson_id>/update', methods=['GET', 'POST'])
+@require_role('teacher')
+def update_lesson(course_id, lesson_id):
+    course = Course.query.filter_by(id=course_id).first_or_404()
+    lesson = course.lessons.filter_by(id=lesson_id).first_or_404()
+
+    form = AddLessonForm()
+    if form.validate_on_submit():
+        lesson.name = form.name.data
+        lesson.description = form.description.data
+        lesson.content = form.content.data
+        db.session.commit()
+        flash("Lesson Updated Successfully!")
+        return redirect(
+            url_for(
+                'teachers.view_lesson',
+                course_id=course.id,
+                lesson_id=lesson.id
+            )
+        )
+
+    form.content.data = lesson.content
+    form.name.data = lesson.name
+    form.description.data = lesson.description
+
+    return render_template(
+        'teachers/add_lesson.html',
+        action='update', lesson=lesson,
+        form=form
+    )
+
+
+@bp.route('/courses/<int:course_id>/lessons/<int:lesson_id>/delete', methods=['POST'])
+@require_role('teacher')
+def delete_lesson(course_id, lesson_id):
+    course = Course.query.filter_by(id=course_id).first_or_404()
+    lesson = course.lessons.filter_by(id=lesson_id).first_or_404()
+    form = EmptyForm(request.form)
+
+
+    if form.validate_on_submit():
+        db.session.delete(lesson)
+        db.session.commit()
+        flash("Lesson Deleted Successfully!")
+        return redirect(url_for('teachers.view_course', id=course.id))
+    
+    flash("Failed to delete lesson!")
+    return redirect(url_for('teachers.view_lesson', course_id=course.id, lesson_id=lesson.id))

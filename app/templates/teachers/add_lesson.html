@@ -1,8 +1,18 @@
 {% extends 'base.html' %}
 {% block content %}
+{% if action == 'update' %}
+<h1>Update Lesson</h1>
+{% else %}
 <h1>Add Lesson</h1>
+{% endif %}
 <div>
+    {% if action == 'update' %}
+    <form 
+        action="{{ url_for('teachers.update_lesson', course_id=lesson.course.id, lesson_id=lesson.id) }}" 
+        method="post">
+    {% else %}
     <form action="" method="post">
+    {% endif %}
         {{ form.hidden_tag() }}
         <div>
             {{ form.name.label }}: {{ form.name() }}
