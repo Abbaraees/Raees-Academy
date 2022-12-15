@@ -1,15 +1,43 @@
 {% extends 'base.html' %}
+{% block styles %}
+ {{ super() }}
+ <link rel="stylesheet" href="{{ url_for('static', filename='styles/view_course.css') }}">
+{% endblock styles %}
 {% block content %}
 <h1>{{ course.name }}</h1>
 <p>{{ course.description }}</p>
+<div>
+    <button>Publish Course</button>
+    <button id="update-course-btn">Update Course</button>
+    <button>Delete Course</button>
+</div>
 <p>Students Enrolled: {{ course.students.count() }}</p>
 <div class="lessons">
     <p>Lessons: {{ course.lessons.count() }}</p>
     <ul>
         {% for lesson in course.lessons.all() %}
-        <li>Lesson {{ lesson.id }}: {{ lesson.name }}</li>
+        <li>
+            <a href="{{ url_for('teachers.view_lesson', course_id=course.id, lesson_id=lesson.id) }}">
+                Lesson {{ lesson.id }}: {{ lesson.name }}
+            </a>
+        </li>
         {% endfor %}
     </ul>
     <a href="{{ url_for('teachers.add_lesson', id=course.id) }}">Add Lesson</a>
 </div>
+<form
+    action="{{ url_for('teachers.update_course', id=course.id) }}"
+    method="post"
+    id="update-course-form"
+    >
+    <button type="button" id="close-btn">X</button>
+    {{ update_form.hidden_tag() }}
+    <p>Course Name: {{ update_form.name() }}</p>
+    <p>Course Descriptiom: {{ update_form.description() }}</p>
+    <button>Update</button>
+</form>
 {% endblock content %}
+{% block script %}
+ {{ super() }}
+ <script src="{{ url_for('static', filename='scripts/view_course.js') }}"></script>
+{% endblock script %}

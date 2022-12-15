@@ -1,0 +1,16 @@
+#update-course-form {
+    width: 500px;
+    position:absolute;
+    top: 40%;
+    left: 30%;
+    background-color: aliceblue;
+    display: none;
+}
+
+#close-btn {
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    right: 5px;
+    border-radius: 50%;
+}

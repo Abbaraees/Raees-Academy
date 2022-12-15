@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>{{ lesson.name }}</h1>
+<p>{{ lesson.description }}</p>
+<div>
+    <button>Update Lesson</button>
+    <button>Delete Lesson</button>
+</div>
+<p>
+    {{ lesson.content }}
+</p>
+{% endblock content %}

@@ -63,8 +63,30 @@ def add_course():
 @require_role('teacher')
 def view_course(id):
     course = Course.query.filter_by(id=id).first_or_404()
+    update_form = AddCourseForm()
+    update_form.name.data = course.name
+    update_form.description.data = course.description
 
-    return render_template('teachers/view_course.html', course=course)
+    return render_template(
+        'teachers/view_course.html',
+        course=course, update_form=update_form
+    )
+
+
+@bp.route('/courses/<int:id>/update', methods=['POST'])
+@require_role('teacher')
+def update_course(id):
+    course = Course.query.filter_by(id=id).first_or_404()
+    form = AddCourseForm(request.form)
+    if form.validate_on_submit():
+        course.name = form.name.data
+        course.description = form.description.data
+        db.session.commit()
+        flash("Course updated successfully")
+        return redirect(url_for('teachers.view_course', id=id))
+
+    flash("Failed to update course")
+    return redirect(url_for('teachers.view_course', id=id))
 
 
 @bp.route('/courses/<int:id>/add_lesson', methods=['GET', 'POST'])
@@ -91,3 +113,12 @@ def add_lesson(id):
 
 
     return render_template('teachers/add_lesson.html', form=form)
+
+
+@bp.route('/courses/<int:course_id>/lessons/<int:lesson_id>')
+@require_role('teacher')
+def view_lesson(course_id, lesson_id):
+    course = Course.query.filter_by(id=course_id).first_or_404()
+    lesson = course.lessons.filter_by(id=lesson_id).first_or_404()
+
+    return render_template('teachers/view_lesson.html', lesson=lesson)
