@@ -12,13 +12,9 @@
             {{ form.content.label }}: {{ form.content(rows=15, cols=50) }}
         </div>
         <div>
-            <button type="button">Upload markdown</button>
-            <button type="button">Add Video</button>
-        </div>
-        <div>
-            <button type="button">Preview</button>
             <button>Add Lesson</button>
         </div>
+        {{ ckeditor.config(name='content') }}
     </form>
 </div>
 

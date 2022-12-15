@@ -8,6 +8,7 @@
     {% block styles %}
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     {% endblock styles%}
+    {{ ckeditor.load() }}
 </head>
 <body>
     {% with messages = get_flashed_messages()%}

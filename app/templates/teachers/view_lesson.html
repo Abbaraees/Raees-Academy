@@ -7,6 +7,6 @@
     <button>Delete Lesson</button>
 </div>
 <p>
-    {{ lesson.content }}
+    {{ lesson.content | safe }}
 </p>
 {% endblock content %}
