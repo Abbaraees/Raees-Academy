@@ -15,7 +15,7 @@
     border-radius: 50%;
 }
 
-#delete-course-form {
+#publish-form, #delete-course-form {
     width: 450px;
     position:fixed;
     top: 40%;

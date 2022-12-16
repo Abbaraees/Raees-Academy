@@ -68,6 +68,7 @@ class Course(db.Model):
     description = db.Column(db.String, nullable=False)
     teacher_id = db.Column(db.Integer, db.ForeignKey('teacher.id'))
     lessons = db.relationship('Lesson', backref='course', lazy='dynamic')
+    published = db.Column(db.Boolean, default=False)
 
     def __repr__(self) -> str:
         return f"Course(name: '{self.name}')"

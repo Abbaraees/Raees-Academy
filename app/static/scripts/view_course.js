@@ -11,6 +11,13 @@ document.addEventListener('click', (e)=> {
     else if (e.target.id == 'cancel-delete-btn') {
         cancelDelete()
     }
+    else if (e.target.id == 'publish-btn') {
+        showPublishForm()
+    }
+    else if (e.target.id == 'cancel-publish-btn') {
+        cancelPublish()
+    }
+
 })
 
 function showUpdateForm() {
@@ -27,4 +34,12 @@ function showDeleteForm() {
 
 function cancelDelete() {
     document.getElementById('delete-course-form').style.display = 'none'
+}
+
+function showPublishForm() {
+    document.getElementById('publish-form').style.display = 'block'
+}
+
+function cancelPublish() {
+    document.getElementById('publish-form').style.display = 'none'
 }

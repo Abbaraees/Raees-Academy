@@ -73,7 +73,8 @@ def view_course(id):
         'teachers/view_course.html',
         course=course, update_form=update_form,
         delete_form=delete_form,
-        enumerate=enumerate
+        enumerate=enumerate,
+        publish_form=EmptyForm()
     )
 
 
@@ -107,6 +108,31 @@ def delete_course(id):
     
     flash("Failed to delete course!")
     return redirect(url_for('teachers.view_course', id=course.id))
+
+
+@bp.route('/courses/<int:id>/publish', methods=['POST'])
+@require_role('teacher')
+def publish_course(id):
+    course = Course.query.filter_by(id=id).first_or_404()
+    form = EmptyForm(request.form)
+    if form.validate_on_submit():
+        try:
+            if course.published:
+                course.published = False
+                db.session.commit()
+                flash("Course unpublished successfully")
+            else:
+                course.published = True
+                db.session.commit()
+                flash("Course published successfully")
+            
+            print(course.published)
+            return redirect(url_for('teachers.view_course', id=id))
+        except:
+            db.session.rollback()
+
+    flash("Operation failed! please try again...!")
+    return redirect(url_for('teachers.view_course', id=id))
 
 
 @bp.route('/courses/<int:id>/add_lesson', methods=['GET', 'POST'])

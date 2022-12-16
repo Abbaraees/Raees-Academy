@@ -7,7 +7,11 @@
 <h1>{{ course.name }}</h1>
 <p>{{ course.description }}</p>
 <div>
-    <button>Publish Course</button>
+    {% if course.published %}
+      <button id="publish-btn">Unpublish Course</button>
+    {% else %}
+      <button id="publish-btn">Publish Course</button>
+    {% endif %}
     <button id="update-course-btn">Update Course</button>
     <button id="delete-course-btn">Delete Course</button>
 </div>
@@ -45,6 +49,17 @@
     <p>Are you sure you want to Delete {{ course.name }}</p>
     <button>Yes</button>
     <button type="button" id="cancel-delete-btn">No</button>
+
+</form>
+<form 
+    action="{{ url_for('teachers.publish_course', id=course.id) }}"
+    method="post"
+    id="publish-form"
+    >
+    {{ publish_form.hidden_tag() }}
+    <p>Are you sure you want to {% if course.published %} Unpublish {% else %} Publish {% endif %} {{ course.name }}</p>
+    <button>Yes</button>
+    <button type="button" id="cancel-publish-btn">No</button>
 
 </form>
 {% endblock content %}
