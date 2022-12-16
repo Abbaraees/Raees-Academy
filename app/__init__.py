@@ -3,7 +3,6 @@ from flask import Flask, url_for, send_from_directory, request
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_ckeditor import CKEditor, upload_fail, upload_success
-from flask_wtf import CSRFProtect
 
 from config import Config
 
@@ -15,7 +14,6 @@ ckeditor = CKEditor()
 
 def create_app(test_config=None):
     app = Flask(__name__, instance_relative_config=True)
-    csrf = CSRFProtect(app)
 
     if test_config:
         app.config.from_mapping(test_config)
