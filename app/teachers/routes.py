@@ -72,7 +72,8 @@ def view_course(id):
     return render_template(
         'teachers/view_course.html',
         course=course, update_form=update_form,
-        delete_form=delete_form
+        delete_form=delete_form,
+        enumerate=enumerate
     )
 
 

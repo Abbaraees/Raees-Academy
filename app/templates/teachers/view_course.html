@@ -15,10 +15,10 @@
 <div class="lessons">
     <p>Lessons: {{ course.lessons.count() }}</p>
     <ul>
-        {% for lesson in course.lessons.all() %}
+        {% for (num, lesson) in enumerate(course.lessons.all()) %}
         <li>
             <a href="{{ url_for('teachers.view_lesson', course_id=course.id, lesson_id=lesson.id) }}">
-                Lesson {{ lesson.id }}: {{ lesson.name }}
+                Lesson {{ num }}: {{ lesson.name }}
             </a>
         </li>
         {% endfor %}
