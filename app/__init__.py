@@ -39,6 +39,9 @@ def create_app(test_config=None):
     from app.teachers import bp as teachers_bp
     app.register_blueprint(teachers_bp)
 
+    from app.students import bp as students_bp
+    app.register_blueprint(students_bp)
+
     @app.route('/')
     def index():
         return 'Hello World'
