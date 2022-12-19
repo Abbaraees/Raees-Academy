@@ -8,9 +8,15 @@
 <p>{{ course.description }}</p>
 <div>
     {% if course not in g.user.courses %}
-      <button>Enroll</button>
+        <form action="{{ url_for('students.enroll', id=course.id) }}" method="post">
+            {{ form.hidden_tag() }}
+            <button>Enroll</button>
+        </form>
     {% else %}
-        <button>Uenroll</button>
+        <form action="{{ url_for('students.unenroll', id=course.id) }}" method="post">
+            {{ form.hidden_tag() }}
+            <button>Unenroll</button>
+        </form>
         <button>Continue Learning</button>
     {% endif %}
 
