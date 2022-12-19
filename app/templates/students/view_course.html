@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% block styles %}
+ {{ super() }}
+ <link rel="stylesheet" href="{{ url_for('static', filename='styles/view_course.css') }}">
+{% endblock styles %}
+{% block content %}
+<h1>{{ course.name }}</h1>
+<p>{{ course.description }}</p>
+<div>
+    {% if course not in g.user.courses %}
+      <button>Enroll</button>
+    {% else %}
+        <button>Uenroll</button>
+        <button>Continue Learning</button>
+    {% endif %}
+
+</div>
+<div class="lessons">
+    <p>Lessons: {{ course.lessons.count() }}</p>
+    <ul>
+        {% for (num, lesson) in enumerate(course.lessons.all()) %}
+        <li>
+            Lesson {{ num }}: {{ lesson.name }}
+            <p>
+                {{ lesson.description }}
+            </p>
+        </li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock content %}
+{% block script %}
+ {{ super() }}
+ <script src="{{ url_for('static', filename='scripts/view_course.js') }}"></script>
+{% endblock script %}
