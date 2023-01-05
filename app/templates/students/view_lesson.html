@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% block styles %}
+ {{ super() }}
+ <link rel="stylesheet" href="{{ url_for('static', filename='styles/view_course.css') }}">
+{% endblock styles %}
+{% block content %}
+<h1>{{ lesson.name }}</h1>
+<p>{{ lesson.description }}</p>
+<p>
+    {{ lesson.content | safe }}
+</p>
+<div>
+    {% if lesson in g.user.lessons_completed %}
+    <button id="complete-btn" disabled>Mark as Completed ✅</button>
+    {% else %}
+    <button id="complete-btn">Mark as Completed</button>
+    {% endif %}
+</div>
+{% endblock content %}
+{% block script %}
+ {{ super() }}
+ <script src="{{ url_for('static', filename='scripts/view_course.js') }}"></script>
+ <script>
+    const completeBtn = document.getElementById('complete-btn')
+
+    completeBtn.addEventListener('click', () => {
+        fetch('/learn/lesson/{{ lesson.id }}/complete', {
+            method: 'POST'
+        }).then((resp)=>{
+            resp.json().then(data=> {
+                if (data['success']) {
+                    completeBtn.textContent += ' ✅'
+                    completeBtn.setAttribute('disabled', true)
+                }
+            })
+        })
+    })
+ </script>
+{% endblock script %}

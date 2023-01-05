@@ -8,6 +8,11 @@ students_courses = db.Table('student_courses',
     db.Column('student_id', db.Integer, db.ForeignKey('student.id')),
 )
 
+students_lessons_completed = db.Table('students_lessons_completed', 
+    db.Column('lesson_id', db.Integer, db.ForeignKey('lesson.id')),
+    db.Column('student_id', db.Integer, db.ForeignKey('student.id')),
+)
+
 
 class Admin(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -51,6 +56,9 @@ class Student(db.Model):
     password_hash = db.Column(db.String(512), nullable=False)
     courses = db.relationship('Course', secondary=students_courses,
                                 backref=db.backref('students', lazy='dynamic'))
+    lessons_completed = db.relationship('Lesson', secondary=students_lessons_completed,
+                                            backref=db.backref('students_completed', lazy='dynamic')
+    )
 
     def __repr__(self) -> str:
         return f"Student(name: '{self.username}')"
@@ -72,6 +80,9 @@ class Course(db.Model):
 
     def __repr__(self) -> str:
         return f"Course(name: '{self.name}')"
+
+    def next_lesson(self, completed_courses):
+        return self.lessons.filter(Lesson.id.not_in(completed_courses))[0]
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      
 
 class Lesson(db.Model):

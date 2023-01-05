@@ -17,7 +17,16 @@
             {{ form.hidden_tag() }}
             <button>Unenroll</button>
         </form>
-        <button>Continue Learning</button>
+        {% if completed_course %}
+        <button disabled>
+            Continue Learning
+        </button>
+        {% else %}
+        <button>
+            <a href="{{ url_for('students.next_lesson', id=course.id) }}">Continue Learning</a>
+        </button>
+        {% endif %}
+        
     {% endif %}
 
 </div>
@@ -26,7 +35,9 @@
     <ul>
         {% for (num, lesson) in enumerate(course.lessons.all()) %}
         <li>
-            Lesson {{ num }}: {{ lesson.name }}
+            <a href="{{ url_for('students.view_lesson', course_id=course.id, lesson_id=lesson.id) }}">
+                Lesson {{ num }}: {{ lesson.name }}
+            </a>
             <p>
                 {{ lesson.description }}
             </p>
